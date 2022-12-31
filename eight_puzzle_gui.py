@@ -1,3 +1,5 @@
+#example do not use !
+
 import tkinter as tk
 import tkinter.ttk as ttk
 from threading import Thread
@@ -26,7 +28,7 @@ class App(tk.Frame):
         self.define_display_widgets()
         self.define_puzzle()
         self.start_background_task()
-        messagebox.showinfo("Info", "Welcome to 8 puzzle Demo:\n\nClick on the tiles to provide input and explore !")
+        messagebox.showinfo("Info", "Welcome to 8 puzzle:\n\nClick on the tiles to provide input and explore !")
 
     def start_background_task(self):
         self.t1 = Thread(target=self.algo_update)
