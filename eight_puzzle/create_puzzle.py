@@ -21,6 +21,7 @@ def create_random_puzzle():
             count += 1
     if debug:
         print_puzzle(puzzle)
+    return puzzle
 
 
 def gen_random_number(min, max, exclude):
@@ -34,7 +35,6 @@ def gen_random_number(min, max, exclude):
 #verifies if puzzle is solvable
 def create_random_puzzle_values():
     solvable = False
-
     while (solvable == False): #generate new puzzle until one is solvable
         values = []
         for i in range(min_value, max_value + 1): #+1 in order to create 8 "random" values
