@@ -12,3 +12,18 @@ def print_puzzle(puzzle):
 
 
 
+#solve puzzle
+# required Parameters: puzzle (2d array), method to solve (hamming/manhattan = h or m),
+# returns: solved puzzle, number of expanded nodes, solve time
+
+def solve_puzzle(puzzle, method):
+    print("todo")
+    return puzzle, expanded_nodes, solve_time
+
+
+def solve_puzzle_hamming():
+    print("todo")
+
+
+def solve_puzzle_manhattan():
+    print("todo")
