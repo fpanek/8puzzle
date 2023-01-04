@@ -6,6 +6,8 @@
 from random import choice
 from eight_puzzle.puzzle_functions import print_puzzle,is_solvable
 
+
+
 min_value = 0
 max_value = 8
 number_of_values = 9

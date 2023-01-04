@@ -3,7 +3,12 @@
 # input value: puzzle as 2d array
 debug = 1
 
+
+
 import math as Math
+import copy
+
+from heapq import heappush, heappop
 
 def print_puzzle(puzzle):
     print("Printing field..")
@@ -23,9 +28,17 @@ def print_puzzle(puzzle):
 # required Parameters: puzzle (2d array), method to solve (hamming/manhattan = h or m),
 # returns: solved puzzle, number of expanded nodes, solve time
 def solve_puzzle(puzzle, method):
-    print("todo")
-    return puzzle, expanded_nodes, solve_time
+    match method:
+        case "h":
+            heuristic_distance = calculate_hamming_distance(puzzle)
+        case "m":
+            heuristic_distance = calculate_manhattan_distance(puzzle)
+    if debug:
+        print("Selected heuristic: ", method, "calculated distance: ", heuristic_distance)
+    #return puzzle, expanded_nodes, solve_time
 
+def make_move(direction, position1, position2):
+    print("todo")
 
 def solve_puzzle_hamming():
     print("todo")
@@ -34,6 +47,14 @@ def solve_puzzle_hamming():
 def solve_puzzle_manhattan():
     print("todo")
 
+
+#TODO
+def move_is_valid(puzzle):
+    print("todo")
+
+#TODO
+def move_tile(puzzle):
+    print("todo")
 
 def calculate_manhattan_distance(puzzle):
     finalStatePuzzle = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
@@ -48,7 +69,7 @@ def calculate_manhattan_distance(puzzle):
                         if finalStatePuzzle[xx][yy] == value:
                             xFound = xx
                             yFound = yy
-                distance += Math.fabs(xFound-x) + Math.fabs(yFound-y)
+                distance += Math.fabs(xFound-x) + Math.fabs(yFound-y) #calculate the required way to get the tile in the correct order / fabs = return the absolute positive value
     return distance
 
 
@@ -62,6 +83,14 @@ def calculate_hamming_distance(puzzle):
                 distance += 1
             finalValue += 1
     return distance
+
+
+#returns true if move is valid / within the boundaries of the game
+def valid_move(x,y):
+    if x <= 3 and y <= 3:
+        return True
+    else:
+        return False
 
 
 #check if the puzzle is solvable - return true if yes / false if it is not solvable
