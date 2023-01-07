@@ -3,15 +3,11 @@
 # input value: puzzle as 2d array
 debug = 0
 
-
-
 import math as Math
 import copy
 from eight_puzzle.priority_queue import *
 from eight_puzzle.puzzle_node import *
 
-
-from heapq import heappush, heappop
 
 def print_puzzle(puzzle):
     print("Printing field..")
@@ -32,6 +28,9 @@ def print_puzzle(puzzle):
 # returns: solved puzzle, number of expanded nodes, solve time
 def solve_puzzle(puzzle,puzzle_goal, method):
     #TODO check for solvability e.g if function is used to solve non solvable puzzle
+    if not is_solvable(puzzle):
+        print("Puzzle is not solvable")
+        return 0
     openList = PriorityQueue()
     node = puzzle_node(puzzle, 0, calculate_heuristic_distance(puzzle, method))
     openList.push(node,calculate_heuristic_distance(puzzle,method))
@@ -46,13 +45,13 @@ def solve_puzzle(puzzle,puzzle_goal, method):
             return current_puzzle_grid, expanded_nodes
         #check possible moves
         #moves are 1=left,2=up,3=right,4=down
-        possible_moves = check_possible_moves(current_puzzle_grid)
+        possible_moves, x,y = check_possible_moves(current_puzzle_grid)
         #print(possible_moves)
 
         #execute possible moves
         for i in possible_moves:
             #print("executing move:", i)
-            try_move = move_empty_tile(current_puzzle_grid, i)
+            try_move = move_empty_tile(current_puzzle_grid, i, x,y)
             expanded_nodes += 1
             if try_move not in closedList:
                 closedList.append(try_move) #add new node to examined nodes
@@ -88,7 +87,7 @@ def check_possible_moves(puzzle):
         #move down possible
         possible_moves.append(4)
         #print("move down possible:", x, y)
-    return possible_moves
+    return possible_moves, x,y
 
 
 #find tile (e.g. 0 for empty tile) and return position
@@ -107,10 +106,10 @@ def find_tile_position(puzzle,tile_value):
 
 #TODO
 #moves are 1=left,2=up,3=right,4=down
-def move_empty_tile(puzzle, direction):
+def move_empty_tile(puzzle, direction, x,y):
     #print("puzzle before move --------:")
     #print_puzzle(puzzle)
-    x,y = find_tile_position(puzzle, 0)
+    x,y = x,y
     new_puzzle = copy.deepcopy(puzzle)
     match direction:
         case 1: #left

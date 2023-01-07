@@ -1,5 +1,3 @@
-
-
 #definition of puzzle - 2d array
 #     0 1 2 (col Axis - second value of array)
 #  0 |0|1|2|
@@ -11,5 +9,5 @@ from eight_puzzle.run_x_puzzles import *
 from eight_puzzle.start_gui import *
 
 if __name__ == '__main__':
-    #solve_x_puzzles(2)
+    solve_x_puzzles(1000)
     #start_gui()
