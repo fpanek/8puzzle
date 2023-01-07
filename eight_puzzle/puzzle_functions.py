@@ -33,42 +33,33 @@ def print_puzzle(puzzle):
 def solve_puzzle(puzzle,puzzle_goal, method):
     #TODO check for solvability e.g if function is used to solve non solvable puzzle
     openList = PriorityQueue()
-    node = puzzle_node(puzzle, 0, 0, 0)
-    openList.push(node,0)
+    #def __init__(self,puzzle, g, h,parent_node):
+    node = puzzle_node(puzzle, 0, calculate_heuristic_distance(puzzle, method), 0)
+    openList.push(node,calculate_heuristic_distance(puzzle,method))
     closedList = []
+    walked_distance = 0
 
     while not openList.isEmpty():
-        #puzzle = openList.pop().puzzle
-        #print(puzzle)
-        #if puzzle == puzzle_goal:
-        #    return puzzle
-        #closedList.append(puzzle)
-
-        current_puzzle = openList.pop().puzzle
-        if current_puzzle == puzzle_goal:
-            return current_puzzle
-
+        current_puzzle = openList.pop()
+        current_puzzle_grid = current_puzzle.puzzle
+        if current_puzzle_grid == puzzle_goal: # return solved puzzle if solution found
+            return current_puzzle_grid
         #check possible moves
         #moves are 1=left,2=up,3=right,4=down
-        possible_moves = check_possible_moves(current_puzzle)
+        possible_moves = check_possible_moves(current_puzzle_grid)
+        #print(possible_moves)
 
         #execute possible moves
         for i in possible_moves:
-            print("test")
-            try_move = move_empty_tile(puzzle,i)
+            #print("executing move:", i)
+            try_move = move_empty_tile(current_puzzle_grid, i)
             if try_move not in closedList:
                 closedList.append(try_move) #add new node to examined nodes
-                openList.push(puzzle_node(puzzle, 0, 0, 0), 0)#add new node to heap #TODO 0,0,0,0 set correct values h/g/n
-            else:
-                print("deleting node required?")
-
-        #calculate heuristic distance for possible moves
-
-        #if the path to the neighbor is better than the previos one save it
-
-        #if the neighbor is not in openset add it to list
-
-
+                #(self, puzzle, g, h, parent_node)
+                hdistance = calculate_heuristic_distance(try_move, method)
+                walked_distance += 1 # moved one tile
+                openList.push(puzzle_node(try_move, walked_distance, hdistance, 0), hdistance)#add new node to heap #TODO 0,0,0,0 set correct values h/g/n
+            #else not required as try_move is only temporary and will be removed afterwards
 
 
 
@@ -80,18 +71,24 @@ def check_possible_moves(puzzle):
     if y>= 1 and y<=2:
         #move left possible
         possible_moves.append(1)
+        #print("move left possible:", x, y)
+
     #check for up:
     if x>= 1 and x<=2:
         #move up possible
         possible_moves.append(2)
+        #print("move up possible:", x, y)
+
     #check for right:
     if y<=1 and y>=0:
         #move right possible
+        #print("move right possible:", x, y)
         possible_moves.append(3)
     #check for down:
     if x<=1 and x>=0:
         #move down possible
         possible_moves.append(4)
+        #print("move down possible:", x, y)
     return possible_moves
 
 
@@ -112,23 +109,26 @@ def find_tile_position(puzzle,tile_value):
 #TODO
 #moves are 1=left,2=up,3=right,4=down
 def move_empty_tile(puzzle, direction):
-    print("todo")
+    #print("puzzle before move --------:")
+    #print_puzzle(puzzle)
+    x,y = find_tile_position(puzzle, 0)
     new_puzzle = copy.deepcopy(puzzle)
-    x,y = find_tile_position(new_puzzle, 0)
     match direction:
-        case 1:
-            new_tile = new_puzzle[x][y-1]
-            new_puzzle[x][y - 1] = 0
-        case 2:
-            new_tile = new_puzzle[x+1][y]
-            new_puzzle[x][y - 1] = 0
-        case 3:
-            new_tile = new_puzzle[x][y+1]
-            new_puzzle[x][y - 1] = 0
-        case 4:
-            new_tile = new_puzzle[x-1][y]
-            new_puzzle[x][y - 1] = 0
-    new_puzzle[x][y] = new_tile
+        case 1: #left
+            old_tile_value = new_puzzle[x][y-1]
+            new_puzzle[x][y-1] = 0
+        case 2: #up
+            old_tile_value = new_puzzle[x-1][y]
+            new_puzzle[x-1][y] = 0
+        case 3: #right
+            old_tile_value = new_puzzle[x][y+1]
+            new_puzzle[x][y+1] = 0
+        case 4: #down
+            old_tile_value = new_puzzle[x+1][y]
+            new_puzzle[x+1][y] = 0
+    new_puzzle[x][y] = old_tile_value
+    #print("puzzle after move --------:")
+    #print_puzzle(new_puzzle)
     return new_puzzle
 
 #calculates the heuristic distance
