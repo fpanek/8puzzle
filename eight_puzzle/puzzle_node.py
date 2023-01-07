@@ -11,11 +11,10 @@ node consists of:
 class puzzle_node():
 
 ##__init__ is maybe comparable to the constructor in java
-    def __init__(self,puzzle, g, h,parent_node):
+    def __init__(self,puzzle, g, h):
         #Todo implement creation of object and values
         self.g = g
         self.h = h
         self.puzzle = puzzle
-        self.parent_node = parent_node
 
 

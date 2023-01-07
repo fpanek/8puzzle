@@ -1,7 +1,7 @@
 #provides different functionalities of the puzzle
 # is it solvable?
 # input value: puzzle as 2d array
-debug = 1
+debug = 0
 
 
 
@@ -33,17 +33,17 @@ def print_puzzle(puzzle):
 def solve_puzzle(puzzle,puzzle_goal, method):
     #TODO check for solvability e.g if function is used to solve non solvable puzzle
     openList = PriorityQueue()
-    #def __init__(self,puzzle, g, h,parent_node):
-    node = puzzle_node(puzzle, 0, calculate_heuristic_distance(puzzle, method), 0)
+    node = puzzle_node(puzzle, 0, calculate_heuristic_distance(puzzle, method))
     openList.push(node,calculate_heuristic_distance(puzzle,method))
     closedList = []
     walked_distance = 0
-
+    expanded_nodes = 0
     while not openList.isEmpty():
         current_puzzle = openList.pop()
         current_puzzle_grid = current_puzzle.puzzle
         if current_puzzle_grid == puzzle_goal: # return solved puzzle if solution found
-            return current_puzzle_grid
+            #print(walked_distance)
+            return current_puzzle_grid, expanded_nodes
         #check possible moves
         #moves are 1=left,2=up,3=right,4=down
         possible_moves = check_possible_moves(current_puzzle_grid)
@@ -53,14 +53,13 @@ def solve_puzzle(puzzle,puzzle_goal, method):
         for i in possible_moves:
             #print("executing move:", i)
             try_move = move_empty_tile(current_puzzle_grid, i)
+            expanded_nodes += 1
             if try_move not in closedList:
                 closedList.append(try_move) #add new node to examined nodes
                 #(self, puzzle, g, h, parent_node)
                 hdistance = calculate_heuristic_distance(try_move, method)
                 walked_distance += 1 # moved one tile
-                openList.push(puzzle_node(try_move, walked_distance, hdistance, 0), hdistance)#add new node to heap #TODO 0,0,0,0 set correct values h/g/n
-            #else not required as try_move is only temporary and will be removed afterwards
-
+                openList.push(puzzle_node(try_move, walked_distance, hdistance), hdistance)#add new node to heap
 
 
 #moves are 1=left,2=up,3=right,4=down

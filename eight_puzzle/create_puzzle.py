@@ -11,7 +11,7 @@ from eight_puzzle.puzzle_functions import print_puzzle,is_solvable
 min_value = 0
 max_value = 8
 number_of_values = 9
-debug =  1# set to 1 and use in functions for additional debug outputs
+debug =  0# set to 1 and use in functions for additional debug outputs
 def create_random_puzzle():
     puzzle = [ [0,0,0], [0,0,0], [0,0,0]]
     values = create_random_puzzle_values()    #create 9 random unique values
