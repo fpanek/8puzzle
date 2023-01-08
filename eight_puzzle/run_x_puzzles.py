@@ -20,26 +20,25 @@ def solve_x_puzzles(x):
     starting_time = timeit.default_timer()
     for y in range(0, x):
         puzzle_array.append(create_random_puzzle())
-
     generation_time = timeit.default_timer() - starting_time
-    print("Time to generate", len(puzzle_array), "puzzles:", generation_time)
+
+    print("Time to generate", len(puzzle_array), "puzzles:", round(generation_time, 3))
     print()
 
-    starting_time = timeit.default_timer()
     counter = 0
     expanded_nodes_avg = 0
+    starting_time = timeit.default_timer()
     for y in range(0, x):
         resolved_puzzle, expanded_nodes = solve_puzzle(puzzle_array[y], puzzle_goal, "h")
         counter += 1
         expanded_nodes_avg = expanded_nodes_avg + expanded_nodes
+    solve_time_hamming = timeit.default_timer() - starting_time
 
     print("******HAMMING******")
-
-    solve_time_hamming = timeit.default_timer() - starting_time
-    print("Time to solve", len(puzzle_array), "puzzles using Hamming distance:", solve_time_hamming)
-
+    print("Time to solve", len(puzzle_array), "puzzles using Hamming distance:", round(solve_time_hamming, 3))
     print("Average expanded nodes:", expanded_nodes_avg / counter)
-    print("Average solve time per puzzle:", solve_time_hamming / x)
+    print("Average solve time per puzzle:", round(solve_time_hamming / x, 3))
+    print()
 
     counter = 0
     expanded_nodes_avg = 0
@@ -48,12 +47,9 @@ def solve_x_puzzles(x):
         resolved_puzzle, expanded_nodes = solve_puzzle(puzzle_array[y], puzzle_goal, "m")
         counter += 1
         expanded_nodes_avg = expanded_nodes_avg + expanded_nodes
-
-    print()
-    print("******MANHATTAN******")
-
     solve_time_manhattan = timeit.default_timer() - starting_time
-    print("Time to solve", len(puzzle_array), "puzzles using Manhattan distance:", solve_time_manhattan)
 
+    print("******MANHATTAN******")
+    print("Time to solve", len(puzzle_array), "puzzles using Manhattan distance:", round(solve_time_manhattan, 3))
     print("Average expanded nodes:", expanded_nodes_avg / counter)
-    print("Average solve time per puzzle:", solve_time_manhattan / x)
+    print("Average solve time per puzzle:", round(solve_time_manhattan / x, 3))

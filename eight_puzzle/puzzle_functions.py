@@ -1,7 +1,7 @@
-import math as Math
+import math as math
 import copy
 from eight_puzzle.priority_queue import *
-from eight_puzzle.puzzlenode import *
+from eight_puzzle.puzzle_node import *
 
 debug = 0
 
@@ -216,7 +216,7 @@ def calculate_manhattan_distance(puzzle):
                         if final_state_puzzle[xx][yy] == value:
                             x_found = xx
                             y_found = yy
-                distance += Math.fabs(x_found - x) + Math.fabs(y_found - y)
+                distance += math.fabs(x_found - x) + math.fabs(y_found - y)
     return distance
 
 
